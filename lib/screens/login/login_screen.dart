@@ -59,7 +59,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Container(),
               ),
               // svg image
-              SvgPicture.asset("assets/images/ic_instagram.svg", color: primaryColor, height: 64),
+              SvgPicture.asset(
+                  "assets/images/ic_instagram.svg",
+                  color: primaryColor,
+                  height: 50
+              ),
               const SizedBox(height: 40,),
               // text field input for email
               TextFieldInput(
@@ -113,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: const Text("Don't have an account?"),
                   ),
+                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {},
                     child: Container(

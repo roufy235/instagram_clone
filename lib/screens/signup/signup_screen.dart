@@ -78,7 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Container(),
               ),
               // svg image
-              SvgPicture.asset("assets/images/ic_instagram.svg", color: primaryColor, height: 64),
+              SvgPicture.asset("assets/images/ic_instagram.svg", color: primaryColor, height: 50),
               const SizedBox(height: 30,),
               // profile image from the gallery
               Stack(
@@ -169,6 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: const Text("Already a member?"),
                   ),
+                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {},
                     child: Container(
