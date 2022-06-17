@@ -1,9 +1,11 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_app/models/user.dart';
 import 'package:instagram_clone_app/providers/user_provider.dart';
+import 'package:instagram_clone_app/resources/firestore_methods.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
 import 'package:instagram_clone_app/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +19,13 @@ class AddPostScreen extends StatefulWidget {
 
 class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _selectedImage;
-  TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _descriptionController.dispose();
+  }
 
   void _selectImage(BuildContext context) async {
     return showDialog(context: context, builder: (context) {
@@ -56,6 +64,26 @@ class _AddPostScreenState extends State<AddPostScreen> {
     });
   }
 
+  void _postImage(String uid, String username, String profileImage) async {
+    try {
+      String res = await FirestoreMethods().uploadPost(
+          _selectedImage!,
+          _descriptionController.text,
+          uid,
+          username,
+          profileImage
+      );
+
+      if (res == 'success') {
+        showSnackBar(context, "Posted!");
+      } else {
+        showSnackBar(context, res);
+      }
+    } catch(err) {
+      showSnackBar(context, err.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -77,7 +105,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
         centerTitle: false,
         actions: [
           TextButton(
-              onPressed: () {},
+              onPressed: () => _postImage(
+                userModel.uid, userModel.username, userModel.photoUrl
+              ),
               child: const Text(
                   'Post',
                 style: TextStyle(
