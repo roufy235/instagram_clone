@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_app/resources/auth_methods.dart';
+import 'package:instagram_clone_app/responsive/mobile_screen_layout.dart';
+import 'package:instagram_clone_app/responsive/responsive_layout_screen.dart';
+import 'package:instagram_clone_app/responsive/web_screen_layout.dart';
+import 'package:instagram_clone_app/screens/login/login_screen.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
 import 'package:instagram_clone_app/utils/utils.dart';
 import 'package:instagram_clone_app/widgets/text_field_input.dart';
@@ -58,7 +62,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (res != "success") {
         showSnackBar(context, res);
       } else {
-
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) {
+              return const ResponsiveLayout(
+                mobileScreenLayout: MobileScreenLayout(),
+                webScreenLayout: WebScreenLayout(),
+              );
+            }));
       }
     }
   }
@@ -171,7 +181,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(width: 5),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(
+                          builder: (context) => const LoginScreen())
+                      );
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(
