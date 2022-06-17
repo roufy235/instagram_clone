@@ -41,23 +41,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _signUpUser() async {
-    setState(() {
-      _isLoading = true;
-    });
-    String res = await AuthMethods().signUpUser(
-        email: _emailController.text,
-        password: _passwordController.text,
-        username: _usernameController.text,
-        bio: _bioController.text,
-        file: _image
-    );
-    setState(() {
-      _isLoading = false;
-    });
-    if (res != "success") {
-      showSnackBar(context, res);
-    } else {
+    if (!_isLoading) {
+      setState(() {
+        _isLoading = true;
+      });
+      String res = await AuthMethods().signUpUser(
+          email: _emailController.text,
+          password: _passwordController.text,
+          username: _usernameController.text,
+          bio: _bioController.text,
+          file: _image
+      );
+      setState(() {
+        _isLoading = false;
+      });
+      if (res != "success") {
+        showSnackBar(context, res);
+      } else {
 
+      }
     }
   }
 
