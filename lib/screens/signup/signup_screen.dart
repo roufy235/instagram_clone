@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_app/resources/auth_methods.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
+import 'package:instagram_clone_app/utils/utils.dart';
 import 'package:instagram_clone_app/widgets/text_field_input.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -17,6 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  Uint8List? _image;
 
   @override
   void dispose() {
@@ -25,6 +30,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _usernameController.dispose();
     _emailController.dispose();
     _bioController.dispose();
+  }
+
+  void _selectImage() async {
+    Uint8List image = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
   }
 
   @override
@@ -47,25 +59,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
               // profile image from the gallery
               Stack(
                 children: [
-                  const Positioned(
-                    child: CircleAvatar(
+                  Positioned(
+                    child: _image != null ? CircleAvatar(
                       radius: 64,
-                      backgroundImage: NetworkImage(
-                        "https://picsum.photos/200/300"
-                      ),
+                      backgroundImage: MemoryImage(_image!),
+                    ) : const CircleAvatar(
+                      radius: 64,
+                      backgroundImage: NetworkImage("http://s3.amazonaws.com/37assets/svn/765-default-avatar.png"),
                     ),
                   ),
                   Positioned(
                     left: 80,
                     bottom: -10,
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: _selectImage,
                         icon: const Icon(Icons.add_a_photo)
                     ),
                   )
                 ],
               ),
-              const SizedBox(height: 24,),
+              const SizedBox(height: 34,),
               // text field input for username
               TextFieldInput(
                   textEditingController: _usernameController,
@@ -93,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   hintText: "Enter your bio",
                   textInputType: TextInputType.multiline
               ),
-              const SizedBox(height: 24,),
+              const SizedBox(height: 44,),
               InkWell(
                 onTap: () async {
                   String res = await AuthMethods().signUpUser(
