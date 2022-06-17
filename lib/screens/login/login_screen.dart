@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (res != "success") {
         showSnackBar(context, res);
       } else {
-
+        print(res);
       }
     }
   }

@@ -26,6 +26,8 @@ class AuthMethods {
         res = "Your password should be at least 6 characters";
       } else if (err.code == "wrong-password") {
         res = "Your password is incorrect";
+      } else if (err.code == "user-not-found") {
+        res = "Account not available. Check your email and password";
       } else {
         res = err.code;
       }
