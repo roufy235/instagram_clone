@@ -12,7 +12,7 @@ class StorageMethods {
     Reference ref = _firebaseStorage.ref().child(folderName).child(_firebaseAuth.currentUser!.uid);
     if (isPost) {
       String uuid = const Uuid().v1();
-      ref.child(uuid);
+      ref = ref.child(uuid);
     }
 
     UploadTask uploadTask = ref.putData(file);
