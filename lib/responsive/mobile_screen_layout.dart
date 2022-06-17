@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_app/models/user.dart';
 import 'package:instagram_clone_app/providers/user_provider.dart';
+import 'package:instagram_clone_app/screens/add_post/add_post_screen.dart';
+import 'package:instagram_clone_app/screens/home/home_screen.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -48,22 +50,13 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       body: PageView(
         controller: pageController,
         onPageChanged: onPageChanged,
-        children: [
-          Center(
-            child: Text("home"),
-          ),
-          Center(
-            child: Text("search"),
-          ),
-          Center(
-            child: Text("add"),
-          ),
-          Center(
-            child: Text("fav"),
-          ),
-          Center(
-            child: Text("profile"),
-          )
+        physics: const NeverScrollableScrollPhysics(),
+        children: const [
+          HomeScreen(),
+          Center(child: Text("search"),),
+          AddPostScreen(),
+          Center(child: Text("fav"),),
+          Center(child: Text("profile"),)
         ],
       ),
       bottomNavigationBar: CupertinoTabBar(
