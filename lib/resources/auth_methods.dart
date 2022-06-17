@@ -1,11 +1,22 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instagram_clone_app/models/user.dart';
 import 'package:instagram_clone_app/resources/storage_methods.dart';
+import 'package:instagram_clone_app/utils/utils.dart';
 
 class AuthMethods {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
+
+  // get user data
+  Future<UserModel> getUserDetails() async {
+    User currentUser = _firebaseAuth.currentUser!;
+    DocumentSnapshot userDetails =  await _firebaseFirestore.collection(userCollectionName).doc(currentUser.uid).get();
+    return UserModel.fromSnapshot(userDetails);
+  }
+
 
   // sign in
   Future<String> signInUser({required String email, required String password}) async {
@@ -57,16 +68,18 @@ class AuthMethods {
         String photoUrl = await StorageMethods().uploadImageToStorage(
             "profilePics", file!, false
         );
+
+        UserModel user = UserModel(
+            username: username,
+            uid: uid,
+            email: email,
+            photoUrl: photoUrl,
+            followers: [],
+            following: [],
+            bio: bio
+        );
         // add user to firestore database
-        await _firebaseFirestore.collection("users").doc(uid).set({
-          'uid': uid,
-          'username': username,
-          'email': email,
-          'bio': bio,
-          'followers': [],
-          'following': [],
-          'photoUrl': photoUrl,
-        });
+        await _firebaseFirestore.collection(userCollectionName).doc(uid).set(user.toJson());
         res = "success";
       } else {
         res = "All fields are required";
