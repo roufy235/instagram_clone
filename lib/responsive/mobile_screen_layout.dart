@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_app/models/user.dart';
-import 'package:instagram_clone_app/providers/user_provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instagram_clone_app/screens/add_post/add_post_screen.dart';
 import 'package:instagram_clone_app/screens/home/home_screen.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
-import 'package:provider/provider.dart';
+import 'package:instagram_clone_app/utils/dimensions.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
@@ -65,27 +64,31 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         backgroundColor: mobileBackgroundColor,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: _page == 0 ? primaryColor : secondaryColor),
+            icon: FaIcon(FontAwesomeIcons.house, color: _page == 0 ? primaryColor : secondaryColor, size: bottomNavBarIconSize,),
             label: "",
             backgroundColor: primaryColor,
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.search, color: _page == 1 ? primaryColor : secondaryColor),
+              icon: FaIcon(FontAwesomeIcons.magnifyingGlass, color: _page == 1 ? primaryColor : secondaryColor, size: bottomNavBarIconSize,),
               label: "",
               backgroundColor: primaryColor
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle, color: _page == 2 ? primaryColor : secondaryColor),
+              icon: FaIcon(FontAwesomeIcons.circlePlus, color: _page == 2 ? primaryColor : secondaryColor, size: bottomNavBarIconSize,),
               label: "",
               backgroundColor: primaryColor
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: _page == 3 ? primaryColor : secondaryColor),
+              icon: FaIcon(FontAwesomeIcons.heart, color: _page == 3 ? primaryColor : secondaryColor, size: bottomNavBarIconSize,),
               label: "",
               backgroundColor: primaryColor
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person, color: _page == 4 ? primaryColor : secondaryColor),
+          const BottomNavigationBarItem(
+            icon: CircleAvatar(
+              backgroundImage: NetworkImage("http://s3.amazonaws.com/37assets/svn/765-default-avatar.png"),
+              radius: 16,
+            ),
+              //icon: Icon(Icons.person, color: _page == 4 ? primaryColor : secondaryColor),
               label: "",
               backgroundColor: primaryColor
           )
