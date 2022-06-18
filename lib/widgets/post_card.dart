@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
+import 'package:intl/intl.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({Key? key}) : super(key: key);
+  final Map<String, dynamic> snap;
+  const PostCard({
+    Key? key,
+    required this.snap
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +22,8 @@ class PostCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16).copyWith(right: 0),
             child: Row(
               children: [
-                const CircleAvatar(
-                  backgroundImage: NetworkImage("http://s3.amazonaws.com/37assets/svn/765-default-avatar.png"),
+                CircleAvatar(
+                  backgroundImage: NetworkImage(snap['profileImage']),
                   radius: 16,
                 ),
                 Expanded(
@@ -27,8 +32,11 @@ class PostCard extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text("username", style: TextStyle(fontWeight: FontWeight.bold)),
+                      children: [
+                        Text(
+                            snap['username'],
+                            style: const TextStyle(fontWeight: FontWeight.bold)
+                        ),
 
                       ],
                     ),
@@ -53,7 +61,7 @@ class PostCard extends StatelessWidget {
                       ),
                     ));
                   },
-                  icon: Icon(Icons.more_vert),
+                  icon: const Icon(Icons.more_vert),
                 )
               ],
             ),
@@ -62,7 +70,7 @@ class PostCard extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.33,
             width: double.infinity,
-            child: Image.network("https://picsum.photos/200", fit: BoxFit.cover),
+            child: Image.network(snap['postUrl'], fit: BoxFit.cover),
           ),
           // LIKE , COMMENT SECTION
           Row(
@@ -104,25 +112,24 @@ class PostCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.subtitle2!.copyWith(
                       fontWeight: FontWeight.w800
                     ),
-                  child: Text('1,000 likes', style: Theme.of(context).textTheme.bodyText2),
+                  child: Text(
+                      snap['likes'].length.toString() + ' likes',
+                      style: Theme.of(context).textTheme.bodyText2
+                  ),
                 ),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 8),
                   child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(
-                        color: primaryColor
-                      ),
+                    text: TextSpan(
+                      style: const TextStyle(color: primaryColor),
                       children: [
                         TextSpan(
-                          text: 'username',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          )
+                          text: snap['username'],
+                          style: const TextStyle(fontWeight: FontWeight.bold)
                         ),
                         TextSpan(
-                            text: ' This is some description to be replaced',
+                            text: ' ' + snap['description'],
                         )
                       ]
                     ),
@@ -142,10 +149,10 @@ class PostCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  child: const Text(
-                    '3 days ago',
-                    style: TextStyle(
-                        fontSize: 14,
+                  child: Text(
+                    DateFormat.yMMMd().format(snap['datePublished'].toDate()),
+                    style: const TextStyle(
+                        fontSize: 12,
                         color: secondaryColor
                     ),
                   ),

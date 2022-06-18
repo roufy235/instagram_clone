@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -34,7 +35,27 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: const PostCard(),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(color: primaryColor),
+              ),
+            );
+          }
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) => Container(
+                child: PostCard(
+                  snap: snapshot.data!.docs[index].data(),
+                ),
+              ));
+        },
+      ),
     );
   }
 }
