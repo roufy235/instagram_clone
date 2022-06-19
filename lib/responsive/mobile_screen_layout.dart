@@ -5,6 +5,7 @@ import 'package:instagram_clone_app/models/user.dart';
 import 'package:instagram_clone_app/providers/user_provider.dart';
 import 'package:instagram_clone_app/screens/add_post/add_post_screen.dart';
 import 'package:instagram_clone_app/screens/home/home_screen.dart';
+import 'package:instagram_clone_app/screens/search/search_screen.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
 import 'package:instagram_clone_app/utils/dimensions.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +56,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         physics: const NeverScrollableScrollPhysics(),
         children: const [
           HomeScreen(),
-          Center(child: Text("search"),),
+          SearchScreen(),
           AddPostScreen(),
           Center(child: Text("fav"),),
           Center(child: Text("profile"),)
