@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instagram_clone_app/models/user.dart';
@@ -5,6 +6,7 @@ import 'package:instagram_clone_app/providers/user_provider.dart';
 import 'package:instagram_clone_app/resources/firestore_methods.dart';
 import 'package:instagram_clone_app/screens/home/comment_screen.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
+import 'package:instagram_clone_app/utils/utils.dart';
 import 'package:instagram_clone_app/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,33 @@ class PostCard extends StatefulWidget {
 class _PostCardState extends State<PostCard> {
 
   bool isLikeAnimating = false;
+  int commentLength = 0;
+  String commentLenStr = 'view all 0 comment';
+
+  @override
+  void initState() {
+    super.initState();
+    getComments();
+  }
+
+  void getComments() async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection(postCollectionName).doc(widget.snap['postId'])
+          .collection(postCollectionCommentName).get();
+      commentLength = querySnapshot.docs.length;
+      if (commentLength > 1) {
+        commentLenStr = 'view all $commentLength comments';
+      } else if (commentLength > 0) {
+        commentLenStr = 'view all $commentLength comment';
+      } else {
+        commentLenStr = 'view all 0 comment';
+      }
+    } catch(err) {
+      print(err.toString());
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -205,12 +234,14 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CommentScreen(snap: widget.snap))
+                  ),
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: const Text(
-                        'view all 200 comments',
-                      style: TextStyle(
+                    child: Text(
+                      commentLenStr,
+                      style: const TextStyle(
                         fontSize: 16,
                         color: secondaryColor
                       ),
