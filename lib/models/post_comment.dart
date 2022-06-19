@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostCommentModel {
   final String profilePic, name, uid, text, commentId;
-  final datePublished;
+  final DateTime datePublished;
   const PostCommentModel({
     required this.profilePic,
     required this.uid,

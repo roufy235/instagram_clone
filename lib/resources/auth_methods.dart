@@ -23,9 +23,8 @@ class AuthMethods {
     String res = "Some error occurred";
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
-        UserCredential userCredential = await _firebaseAuth
-            .signInWithEmailAndPassword(email: email, password: password);
-        String uid = userCredential.user!.uid;
+        //UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+        //String uid = userCredential.user!.uid;
         res = "success";
       } else {
         res = "All fields are required";
@@ -64,7 +63,7 @@ class AuthMethods {
             .createUserWithEmailAndPassword(email: email, password: password);
 
         String uid = userCredential.user!.uid;
-        print(uid);
+        //print(uid);
         String photoUrl = await StorageMethods().uploadImageToStorage(
             "profilePics", file!, false
         );

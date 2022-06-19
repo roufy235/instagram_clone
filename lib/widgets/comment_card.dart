@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class CommentCard extends StatefulWidget {
-  final snap;
+  final Map<String, dynamic> snap;
   const CommentCard({Key? key, required this.snap}) : super(key: key);
 
   @override
@@ -33,9 +34,10 @@ class _CommentCardState extends State<CommentCard> {
                       children: [
                         TextSpan(
                             text: widget.snap['name'],
-                            style: TextStyle(fontWeight: FontWeight.bold)
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.bold)
                         ),
                         TextSpan(
+                          style: GoogleFonts.poppins(),
                             text: ' ${widget.snap['text']}',
                         )
                       ]
@@ -45,7 +47,7 @@ class _CommentCardState extends State<CommentCard> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       DateFormat.yMMMd().format(widget.snap['datePublished'].toDate()),
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400)
+                      style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w400)
                     ),
                   )
                 ],

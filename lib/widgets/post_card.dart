@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:instagram_clone_app/models/user.dart';
 import 'package:instagram_clone_app/providers/user_provider.dart';
 import 'package:instagram_clone_app/resources/firestore_methods.dart';
@@ -27,6 +28,7 @@ class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
   int commentLength = 0;
   String commentLenStr = 'view all 0 comment';
+  String likeStr = '0 like';
 
   @override
   void initState() {
@@ -56,6 +58,14 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
 
+    if (widget.snap['likes'].length > 1) {
+      likeStr = '${widget.snap['likes'].length.toString()} likes';
+    } else if (widget.snap['likes'].length > 0) {
+      likeStr = '${widget.snap['likes'].length.toString()} like';
+    } else {
+      likeStr = '0 like';
+    }
+
     final UserModel user = Provider.of<UserProvider>(context).getUser;
 
 
@@ -82,7 +92,9 @@ class _PostCardState extends State<PostCard> {
                       children: [
                         Text(
                             widget.snap['username'],
-                            style: const TextStyle(fontWeight: FontWeight.bold)
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold
+                            ),
                         ),
 
                       ],
@@ -211,7 +223,7 @@ class _PostCardState extends State<PostCard> {
                       fontWeight: FontWeight.w800
                     ),
                   child: Text(
-                       '${widget.snap['likes'].length.toString()} likes',
+                      likeStr,
                       style: Theme.of(context).textTheme.bodyText2
                   ),
                 ),
@@ -224,10 +236,14 @@ class _PostCardState extends State<PostCard> {
                       children: [
                         TextSpan(
                           text: widget.snap['username'],
-                          style: const TextStyle(fontWeight: FontWeight.bold)
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold
+                          )
+                          //style: const TextStyle(fontWeight: FontWeight.bold)
                         ),
                         TextSpan(
                             text: ' ${widget.snap['description']}',
+                          style: GoogleFonts.poppins()
                         )
                       ]
                     ),
@@ -241,7 +257,7 @@ class _PostCardState extends State<PostCard> {
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Text(
                       commentLenStr,
-                      style: const TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 16,
                         color: secondaryColor
                       ),
@@ -250,7 +266,7 @@ class _PostCardState extends State<PostCard> {
                 ),
                 Text(
                   DateFormat.yMMMd().format(widget.snap['datePublished'].toDate()),
-                  style: const TextStyle(
+                  style: GoogleFonts.poppins(
                       fontSize: 12,
                       color: secondaryColor
                   ),

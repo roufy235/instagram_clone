@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:instagram_clone_app/models/user.dart';
 import 'package:instagram_clone_app/providers/user_provider.dart';
 import 'package:instagram_clone_app/resources/firestore_methods.dart';
@@ -38,7 +39,7 @@ class _CommentScreenState extends State<CommentScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
-        title: const Text('Comments'),
+        title: Text('Comments', style: GoogleFonts.poppins()),
         centerTitle: false,
       ),
       body: StreamBuilder(
@@ -105,9 +106,9 @@ class _CommentScreenState extends State<CommentScreen> {
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  child: const Text(
+                  child: Text(
                     "post",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: blueColor
                     ),
                   ),

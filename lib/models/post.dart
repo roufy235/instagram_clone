@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PostModel {
   final String username, uid, description,
       postId, postUrl, profileImage;
-  final likes, datePublished;
+  final List likes;
+  final DateTime datePublished;
 
   const PostModel({
     required this.username,
