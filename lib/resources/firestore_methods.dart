@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instagram_clone_app/models/post.dart';
+import 'package:instagram_clone_app/models/post_comment.dart';
 import 'package:instagram_clone_app/resources/storage_methods.dart';
 import 'package:instagram_clone_app/utils/utils.dart';
 import 'package:uuid/uuid.dart';
@@ -45,5 +45,30 @@ class FirestoreMethods {
     } catch(e) {
       print(e.toString());
     }
+  }
+
+  Future<String> postComment(String postId, String text, String uid, String name, String profilePic) async {
+    String res = 'some error occurred';
+    try {
+      if (text.isNotEmpty) {
+        String commentId = const Uuid().v1();
+        await _firebaseFirestore.collection(postCollectionName).doc(postId).collection(postCollectionCommentName).doc(commentId).set(
+            PostCommentModel(
+                profilePic: profilePic,
+                uid: uid,
+                name: name,
+                text: text,
+                commentId: commentId,
+                datePublished: DateTime.now()
+            ).toJson()
+        );
+        res = 'success';
+      } else {
+        res = 'text is empty';
+      }
+    } catch(err) {
+      res = err.toString();
+    }
+    return res;
   }
 }

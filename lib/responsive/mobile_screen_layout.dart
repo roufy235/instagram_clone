@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:instagram_clone_app/models/user.dart';
+import 'package:instagram_clone_app/providers/user_provider.dart';
 import 'package:instagram_clone_app/screens/add_post/add_post_screen.dart';
 import 'package:instagram_clone_app/screens/home/home_screen.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
 import 'package:instagram_clone_app/utils/dimensions.dart';
+import 'package:provider/provider.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
@@ -43,7 +46,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
 
-    //UserModel userModel = Provider.of<UserProvider>(context).getUser;
+    UserModel user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
       body: PageView(
@@ -83,9 +86,9 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               label: "",
               backgroundColor: primaryColor
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: CircleAvatar(
-              backgroundImage: NetworkImage("http://s3.amazonaws.com/37assets/svn/765-default-avatar.png"),
+              backgroundImage: NetworkImage(user.photoUrl),
               radius: 16,
             ),
               //icon: Icon(Icons.person, color: _page == 4 ? primaryColor : secondaryColor),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class CommentCard extends StatefulWidget {
-  const CommentCard({Key? key}) : super(key: key);
+  final snap;
+  const CommentCard({Key? key, required this.snap}) : super(key: key);
 
   @override
   State<CommentCard> createState() => _CommentCardState();
@@ -15,33 +17,36 @@ class _CommentCardState extends State<CommentCard> {
       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
       child: Row(
         children: [
-          const CircleAvatar(
-            backgroundImage: NetworkImage("http://s3.amazonaws.com/37assets/svn/765-default-avatar.png"),
+          CircleAvatar(
+            backgroundImage: NetworkImage(widget.snap['profilePic']),
             radius: 18,
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(left: 16),
+              padding: const EdgeInsets.only(left: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   RichText(
-                    text: const TextSpan(
+                    text: TextSpan(
                       children: [
                         TextSpan(
-                            text: 'username',
+                            text: widget.snap['name'],
                             style: TextStyle(fontWeight: FontWeight.bold)
                         ),
                         TextSpan(
-                            text: ' some description to insert',
+                            text: ' ' + widget.snap['text'],
                         )
                       ]
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 4),
-                    child: Text('3 days ago', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      DateFormat.yMMMd().format(widget.snap['datePublished'].toDate()),
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400)
+                    ),
                   )
                 ],
               ),
