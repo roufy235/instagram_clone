@@ -36,7 +36,7 @@ class _CommentCardState extends State<CommentCard> {
                             style: TextStyle(fontWeight: FontWeight.bold)
                         ),
                         TextSpan(
-                            text: ' ' + widget.snap['text'],
+                            text: ' ${widget.snap['text']}',
                         )
                       ]
                     ),
