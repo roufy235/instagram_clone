@@ -48,7 +48,7 @@ class _PostCardState extends State<PostCard> {
         commentLenStr = 'view all 0 comment';
       }
     } catch(err) {
-      print(err.toString());
+      showSnackBar(context, err.toString());
     }
     setState(() {});
   }
@@ -211,7 +211,7 @@ class _PostCardState extends State<PostCard> {
                       fontWeight: FontWeight.w800
                     ),
                   child: Text(
-                      widget.snap['likes'].length.toString() + ' likes',
+                       '${widget.snap['likes'].length.toString()} likes',
                       style: Theme.of(context).textTheme.bodyText2
                   ),
                 ),
@@ -227,7 +227,7 @@ class _PostCardState extends State<PostCard> {
                           style: const TextStyle(fontWeight: FontWeight.bold)
                         ),
                         TextSpan(
-                            text: ' ' + widget.snap['description'],
+                            text: ' ${widget.snap['description']}',
                         )
                       ]
                     ),
@@ -248,13 +248,11 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-                Container(
-                  child: Text(
-                    DateFormat.yMMMd().format(widget.snap['datePublished'].toDate()),
-                    style: const TextStyle(
-                        fontSize: 12,
-                        color: secondaryColor
-                    ),
+                Text(
+                  DateFormat.yMMMd().format(widget.snap['datePublished'].toDate()),
+                  style: const TextStyle(
+                      fontSize: 12,
+                      color: secondaryColor
                   ),
                 )
               ],
