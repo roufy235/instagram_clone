@@ -101,7 +101,7 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-                IconButton(
+                widget.snap['uid'] == user.uid ? IconButton(
                   onPressed: () {
                     showDialog(context: context, builder: (context) => Dialog(
                       child: ListView(
@@ -110,7 +110,10 @@ class _PostCardState extends State<PostCard> {
                         children: [
                           'Delete'
                         ].map((e) => InkWell(
-                            onTap: () {},
+                            onTap: () async {
+                              FirestoreMethods().deletePost(widget.snap['postId']);
+                              Navigator.of(context).pop();
+                            },
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                               child: Text(e),
@@ -121,7 +124,7 @@ class _PostCardState extends State<PostCard> {
                     ));
                   },
                   icon: const Icon(Icons.more_vert),
-                )
+                ) : Container()
               ],
             ),
           ),
