@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instagram_clone_app/models/user.dart';
 import 'package:instagram_clone_app/providers/user_provider.dart';
+import 'package:instagram_clone_app/resources/firestore_methods.dart';
+import 'package:instagram_clone_app/screens/home/comment_screen.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
 import 'package:instagram_clone_app/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
@@ -84,10 +86,15 @@ class _PostCardState extends State<PostCard> {
           ),
           // IMAGE SECTION
           GestureDetector(
-            onDoubleTap: () {
+            onDoubleTap: () async {
               setState(() {
                 isLikeAnimating = true;
               });
+              await FirestoreMethods().likePosts(
+                  widget.snap['postId'],
+                  user.uid,
+                  widget.snap['likes']
+              );
             },
             child: Stack(
               alignment: Alignment.center,
@@ -129,15 +136,21 @@ class _PostCardState extends State<PostCard> {
                 isAnimating: widget.snap['likes'].contains(user.uid),
                 smallLike: true,
                 child: IconButton(
-                    onPressed: () {},
-                    icon: const FaIcon(
+                    onPressed: () async {
+                      await FirestoreMethods().likePosts(
+                          widget.snap['postId'],
+                          user.uid,
+                          widget.snap['likes']
+                      );
+                    },
+                    icon: widget.snap['likes'].contains(user.uid) ? const FaIcon(
                       FontAwesomeIcons.solidHeart,
                       color: Colors.red,
-                    )
+                    ) : const FaIcon(FontAwesomeIcons.heart)
                 ),
               ),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CommentScreen())),
                   icon: const FaIcon(FontAwesomeIcons.comment)
               ),
               IconButton(
